@@ -30,9 +30,6 @@ class HomeController extends Controller
                     'avance' => number_format($value->SEOBFisAva,0,'.','.'),
                     'lat' => $latlong['lat'],
                     'lng' => $latlong['lon'],
-                    /* $depto=$project->DptoId?$project->departamento->DptoNom:"";
-                    $distrito=$project->CiuId?$project->distrito->CiuNom:"";
-                    $avance =number_format($project->SEOBFisAva,0,'.','.');*/
                     ];
             } catch (\Throwable $th) {
                 $error[] = [
