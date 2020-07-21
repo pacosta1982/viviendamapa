@@ -138,12 +138,8 @@ export default {
         const filterKeys = Object.keys(filters);
         //console.log(filterKeys);
         return array.filter(item => {
-            // validates all filter criteria
-            //console.log(filterKeys);
-            return filterKeys.every(key => {
-            // ignores an empty filter
-            console.log(key);
 
+            return filterKeys.every(key => {
             if (!filters[key].length) return true;
             if (key==='sat') {return filters[key].find(filter => getValue(item[key]).indexOf(getValue(filter)) >= 1)}//find(filter => getValue(filter).includes(getValue(item[key])));}
             else{return filters[key].find(filter => getValue(filter) === getValue(item[key]))}// === getValue(item[key]));
