@@ -1,23 +1,34 @@
 
 <template>
 <div>
-    <label for="cars">Choose a car:</label>
+  <div class="row">
+    <div class="col">
+      <label for="cars">Departamento:</label>
+      <select v-model="selectedCategory" name="cars" id="cars">
+        <option value=""></option>
+        <option v-for="(d) in arrayDepartamento" :key="d.DptoId" :value="d.DptoId">{{d.DptoNom}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <label for="cars">Programa:</label>
+      <select v-model="selectedProgram" name="programs" id="programs">
+        <option value=""></option>
+        <option v-for="(p) in arrayProgramas" :key="p.id" :value="p.name">{{p.name}}</option>
+      </select>
+    </div>
 
-<select v-model="selectedCategory" name="cars" id="cars">
-  <option value="volvo">Volvo</option>
-  <option value="CENTRAL">CENTRAL</option>
-  <option value="CONCEPCION">CONCEPCION</option>
-  <option value="audi">Audi</option>
-</select>
+  </div>
+
 
     <GmapMap
-    :center="{lat:-25.3006592, lng:-57.63591}"
+    :center="{lat:-23.5152472, lng:-58.4218982}"
     :zoom="7"
     map-type-id="terrain"
-    style="width: 1200px; height: 800px"
+    style="width: 100%; height: 900px"
     >
     <gmap-info-window :options="infoOptions" :position="infoPosition" :opened="infoOpened" @closeclick="infoOpened=false">
         <p><strong>Proyecto: {{infoContent}}</strong><br>
+        Programa: {{infoProgram}}<br>
         Departamento: {{infoDepartamento}}<br>
         Distrito: {{infoDistrito}}<br>
         Sat/Empresa: {{infoSat}}<br>
@@ -39,12 +50,17 @@
 import {gmapApi} from 'vue2-google-maps'
 
 export default {
-  props: ['data'],
+  props: ['data','departamento','programas'],
   data(){
       return {
         arrayProyecto : this.data,
+        arrayDepartamento : this.departamento,
+        arrayProgramas : this.programas,
+        arrayFiltrado : [],
+        filtros : {},
         infoPosition: null,
         infoContent: null,
+        infoProgram: null,
         infoDepartamento: null,
         infoDistrito: null,
         infoSat: null,
@@ -53,6 +69,7 @@ export default {
         infoOpened: false,
         infoCurrentKey: null,
         selectedCategory: '',
+        selectedProgram: '',
         infoOptions: {
         pixelOffset: {
         width: 0,
@@ -68,9 +85,23 @@ export default {
         lng: parseFloat(marker.lng)
       }
     },
+    filterArray(array, filters) {
+    const filterKeys = Object.keys(filters);
+    console.log('funciona');
+        return array.filter(item => {
+            // validates all filter criteria
+            return filterKeys.every(key => {
+            // ignores non-function predicates
+            if (typeof filters[key] !== 'function') return true;
+            return filters[key](item[key]);
+            });
+        });
+    }
+    ,
     toggleInfo: function(marker, key) {
       this.infoPosition = this.getPosition(marker)
       this.infoContent = marker.proyecto
+      this.infoProgram = marker.programa
       this.infoDepartamento = marker.departamento
       this.infoDistrito = marker.distrito
       this.infoSat = marker.sat
@@ -88,13 +119,35 @@ export default {
   computed: {
     google: gmapApi,
     filteredProducts() {
-        if(this.selectedCategory === '') {
-            return this.arrayProyecto;
-        } else {
-            const category = this.selectedCategory;
-            return this.arrayProyecto
-                        .filter((product) => product.departamento === category)
+        const getValue = value => (typeof value === 'string' ? value.toUpperCase() : value);
+        this.arrayFiltrado = this.arrayProyecto;
+
+        if(this.selectedCategory !== '') {
+            this.filtros.departamento_id = [this.selectedCategory];
+        }else{
+            delete this.filtros.departamento_id
         }
+
+        if(this.selectedProgram !== '') {
+            this.filtros.programa = [this.selectedProgram];
+        }else{
+            delete this.filtros.programa;
+        }
+
+        function filterPlainArray(array, filters) {
+        const filterKeys = Object.keys(filters);
+        return array.filter(item => {
+            // validates all filter criteria
+            return filterKeys.every(key => {
+            // ignores an empty filter
+            if (!filters[key].length) return true;
+            console.log(filters);
+            return filters[key].find(filter => getValue(filter) === getValue(item[key]));
+            });
+        });
+        }
+
+        return filterPlainArray(this.arrayFiltrado, this.filtros);
     }
   }
 }

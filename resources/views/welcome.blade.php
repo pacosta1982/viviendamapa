@@ -65,9 +65,14 @@
     </head>
     <body>
 
-        <div class="flex-center position-ref full-height">
+        <div>
             <div class="content" id="app">
-                <mapa-component :data="{{ json_encode($data) }}"></mapa-component>
+            <mapa-component
+                :data="{{ json_encode($data) }}"
+                :departamento="{{ json_encode($departamentos)}}"
+                :programas="{{ json_encode($programas)}}"
+                >
+            </mapa-component>
             </div>
         </div>
     <script src="js/app.js"></script>

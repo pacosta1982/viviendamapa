@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Departamento;
+use App\Programa;
 
 class HomeController extends Controller
 {
@@ -11,18 +13,26 @@ class HomeController extends Controller
     public function index(){
 
         $ids = [6, 10, 11];
+        $nodep = [18, 19, 20, 999];
         $data = [];
         $error = [];
 
         $projects = Project::whereIn('SEOBPlan', $ids)
         ->get();
+        $departamentos = Departamento::whereNotIn( 'DptoId',$nodep)
+        //->select('DptoNom')
+        ->get();
+        $programas = Programa::all();
 
         foreach ($projects as $key => $value) {
             try {
                 $latlong= $this->ToLL((int)$value->SEOBUtmY,(int)$value->SEOBUtmX,preg_replace("/[^0-9]/", '', $value->SEOBUtm1));
                 $data[] = [
                     'id' => trim($value->SEOBId),
+                    'programa_id' => trim($value->SEOBProgr),
+                    'programa' => trim($value->SEOBProgr?$value->programa->name:""),
                     'proyecto' => trim($value->SEOBProy),
+                    'departamento_id' => $value->DptoId,
                     'departamento' => trim($value->DptoId?$value->departamento->DptoNom:""),
                     'distrito' => trim($value->CiuId?$value->distrito->CiuNom:""),
                     'sat' => trim($value->SEOBEmpr),
@@ -44,8 +54,8 @@ class HomeController extends Controller
             }
 
         }
-        //dd($data);
-        return view('welcome', compact('projects','data'));
+        //dd($departamentos->toJson());
+        return view('welcome', compact('projects','data','departamentos','programas'));
     }
 
 

@@ -20,6 +20,10 @@ class Project extends Model
         return $this->hasOne('App\Departamento','DptoId','DptoId');
     }
 
+    public function programa() {
+        return $this->hasOne('App\Programa','id','SEOBProgr');
+    }
+
     public function estado() {
         return $this->hasOne('App\Estado','value','SEOBEst');
     }
