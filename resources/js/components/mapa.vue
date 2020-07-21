@@ -16,6 +16,10 @@
         <option v-for="(p) in arrayProgramas" :key="p.id" :value="p.name">{{p.name}}</option>
       </select>
     </div>
+    <div class="col">
+      <label for="cars">Sat/Empresa:</label>
+      <input type="text" v-model="inputSat">
+    </div>
 
   </div>
 
@@ -70,6 +74,7 @@ export default {
         infoCurrentKey: null,
         selectedCategory: '',
         selectedProgram: '',
+        inputSat: '',
         infoOptions: {
         pixelOffset: {
         width: 0,
@@ -85,19 +90,6 @@ export default {
         lng: parseFloat(marker.lng)
       }
     },
-    filterArray(array, filters) {
-    const filterKeys = Object.keys(filters);
-    console.log('funciona');
-        return array.filter(item => {
-            // validates all filter criteria
-            return filterKeys.every(key => {
-            // ignores non-function predicates
-            if (typeof filters[key] !== 'function') return true;
-            return filters[key](item[key]);
-            });
-        });
-    }
-    ,
     toggleInfo: function(marker, key) {
       this.infoPosition = this.getPosition(marker)
       this.infoContent = marker.proyecto
@@ -120,6 +112,7 @@ export default {
     google: gmapApi,
     filteredProducts() {
         const getValue = value => (typeof value === 'string' ? value.toUpperCase() : value);
+        const getSat = value => (typeof value === 'string' ? value.toUpperCase() : value);
         this.arrayFiltrado = this.arrayProyecto;
 
         if(this.selectedCategory !== '') {
@@ -134,15 +127,27 @@ export default {
             delete this.filtros.programa;
         }
 
+        if(this.inputSat !== '') {
+            this.filtros.sat = [this.inputSat];
+        }else{
+            delete this.filtros.sat;
+        }
+
+
         function filterPlainArray(array, filters) {
         const filterKeys = Object.keys(filters);
+        //console.log(filterKeys);
         return array.filter(item => {
             // validates all filter criteria
+            //console.log(filterKeys);
             return filterKeys.every(key => {
             // ignores an empty filter
+            console.log(key);
+
             if (!filters[key].length) return true;
-            console.log(filters);
-            return filters[key].find(filter => getValue(filter) === getValue(item[key]));
+            if (key==='sat') {return filters[key].find(filter => getValue(item[key]).indexOf(getValue(filter)) >= 1)}//find(filter => getValue(filter).includes(getValue(item[key])));}
+            else{return filters[key].find(filter => getValue(filter) === getValue(item[key]))}// === getValue(item[key]));
+
             });
         });
         }
