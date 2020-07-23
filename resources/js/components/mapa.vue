@@ -83,26 +83,54 @@
         :opened="infoOpened"
         @closeclick="infoOpened=false"
       >
-        <p>
-          <strong>Proyecto: {{infoContent}}</strong>
-          <br />
-          Programa: {{infoProgram}}
-          <br />
-          Departamento: {{infoDepartamento}}
-          <br />
-          Distrito: {{infoDistrito}}
-          <br />
-          Sat/Empresa: {{infoSat}}
-          <br />
-          Estado: {{infoEstado}}
-          <br />
-          Total Viviendas: {{infoCasas}}
-          <br />
-          Monto Total: {{ infoMonto }}Gs.
-          <br />
-          Avance: {{infoAvance}} %
-          <br />
-        </p>
+        <div class="max-w-sm rounded overflow-hidden shadow-lg">
+          <img
+            class="object-cover h-40 w-full px-2"
+            src="/img/MUVH-fACHADA.jpeg"
+            alt="Sunset in the mountains"
+          />
+          <div class="px-2 py-2">
+            <div class="font-bold text-xl mb-2 text-center">{{infoContent}}</div>
+            <p class="text-gray-700 text-base">
+              <strong>Programa:</strong>
+              {{infoProgram}}
+              <br />
+              <strong>Departamento:</strong>
+              {{infoDepartamento}}
+              <br />
+              <strong>Distrito:</strong>
+              {{infoDistrito}}
+              <br />
+              <strong>Sat/Empresa:</strong>
+              {{infoSat}}
+              <br />
+              <strong>Estado:</strong>
+              {{infoEstado}}
+              <br />
+              <strong>Total Viviendas:</strong>
+              {{infoCasas}}
+              <br />
+              <strong>Monto Total:</strong>
+              {{ infoMonto }} Gs.
+              <br />
+              <strong>Avance:</strong>
+              {{infoAvance}} %
+              <br />
+            </p>
+          </div>
+          <!-- <div class="px-6 py-4">
+            <span
+              class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"
+            >#photography</span>
+            <span
+              class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"
+            >#travel</span>
+            <span
+              class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
+            >#winter</span>
+          </div>-->
+        </div>
+        <p></p>
       </gmap-info-window>
       <GmapMarker
         :key="m.id"
