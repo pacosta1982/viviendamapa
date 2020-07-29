@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Sat;
+use App\Estado;
 use App\Departamento;
 use App\Programa;
 
@@ -16,15 +18,28 @@ class HomeController extends Controller
         $ids = [6, 10, 12];
         $nodep = [18, 19, 20, 999];
         $data = [];
+        $datasat = [];
         $error = [];
 
         $projects = Project::whereIn('SEOBPlan', $ids)
             ->where('SEOBEst', '!=', 'A')
             ->get();
+        $estados = Estado::where('value', '!=', 'A')->get();
+        //dd($estados->toJson());
         $departamentos = Departamento::whereNotIn('DptoId', $nodep)
             //->select('DptoNom')
             ->get();
         $programas = Programa::all();
+
+        $sats = Sat::where('NucEst', '=', 'H')
+            ->get();
+        //dd($sats->toJson());
+        foreach ($sats as $key => $sat) {
+            $datasat[] = [
+                'id' => trim($sat->NucCod),
+                'name' => trim($sat->NucCod ? $sat->satnombre->PerNom : ""),
+            ];
+        }
 
         foreach ($projects as $key => $value) {
             try {
@@ -40,6 +55,7 @@ class HomeController extends Controller
                     'departamento' => trim($value->DptoId ? $value->departamento->DptoNom : ""),
                     'distrito' => trim($value->CiuId ? $value->distrito->CiuNom : ""),
                     'sat' => trim($value->SEOBEmpr),
+                    'codigo_sat' => trim($value->SEOBCodSAT),
                     'cantidad_viviendas' => $value->SEOBViv,
                     'avance' => number_format($value->SEOBFisAva, 0, '.', '.'),
                     'lat' => $latlong['lat'],
@@ -58,8 +74,8 @@ class HomeController extends Controller
                 ];
             }
         }
-        //dd($departamentos->toJson());
-        return view('welcome', compact('projects', 'data', 'departamentos', 'programas'));
+        //dd($datasat);
+        return view('welcome', compact('projects', 'data', 'departamentos', 'programas', 'datasat', 'estados'));
     }
 
 

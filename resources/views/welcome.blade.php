@@ -27,6 +27,8 @@
         <div class="container mx-auto  pt-8 " id="app">
                 <mapa-component
                     :data="{{ json_encode($data) }}"
+                    :datasat="{{ json_encode($datasat) }}"
+                    :estados="{{ json_encode($estados) }}"
                     :departamento="{{ json_encode($departamentos)}}"
                     :programas="{{ json_encode($programas)}}"
                     >
