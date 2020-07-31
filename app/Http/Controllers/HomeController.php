@@ -24,6 +24,7 @@ class HomeController extends Controller
         $error = [];
 
         $projects = Project::whereIn('SEOBPlan', $ids)
+            //->where('SEOBProgr','=','11')
             ->whereNotIn('SEOBEst', $noestados)
             ->whereIn('SEOBProgr', $addprogramas)
             ->get();

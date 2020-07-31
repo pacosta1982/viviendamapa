@@ -21,7 +21,7 @@ class Project extends Model
     }
 
     public function programa() {
-        return $this->hasOne('App\Programa','id','SEOBProgr');
+        return $this->hasOne('App\Programa','value','SEOBProgr');
     }
 
     public function estado() {
