@@ -17,19 +17,24 @@ class HomeController extends Controller
 
         $ids = [6, 10, 12];
         $nodep = [18, 19, 20, 999];
+        $noestados = ['A', 'I'];
+        $addprogramas = [4, 9, 5, 2, 3, 1];
         $data = [];
         $datasat = [];
         $error = [];
 
         $projects = Project::whereIn('SEOBPlan', $ids)
-            ->where('SEOBEst', '!=', 'A')
+            ->whereNotIn('SEOBEst', $noestados)
+            ->whereIn('SEOBProgr', $addprogramas)
             ->get();
-        $estados = Estado::where('value', '!=', 'A')->get();
+        $estados = Estado::whereNotIn('value', $noestados   )->get();
         //dd($estados->toJson());
         $departamentos = Departamento::whereNotIn('DptoId', $nodep)
             //->select('DptoNom')
+            //->whereNotIn('DptoId', $nodep)
             ->get();
-        $programas = Programa::all();
+        $programas = Programa::whereIn('value', $addprogramas)
+                     ->get();
 
         $sats = Sat::where('NucEst', '=', 'H')
             ->get();
