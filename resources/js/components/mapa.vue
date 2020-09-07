@@ -138,7 +138,44 @@
         @closeclick="infoOpened=false"
       >
         <div class="max-w-sm rounded overflow-hidden shadow-lg">
-          <img
+            <div v-if="gallery.length > 0">
+                <div id="demo" class="carousel slide" data-ride="carousel">
+
+
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    <div class="carousel-item" :class="{ 'active': index === 0 }" v-for="(fruit, index) in gallery" :key="fruit.id">
+                    <img class="imgmapa" :src="'/media/'+fruit.id+'/'+fruit.file_name" alt="">
+                    </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+                </div>
+                <!--<div class="slideshow-container">
+
+                    <div class="mySlides fade" v-for="fruit in gallery" :key="fruit.id">
+                    <img :src="'/media/'+fruit.id+'/'+fruit.file_name" style="width:100%">
+                    <div class="text">Caption Text</div>
+                    </div>
+
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                </div> -->
+               <!-- <img
+                class="object-cover h-40 w-full px-2"
+                v-for="fruit in gallery"
+                :key="fruit.id"
+                :src="'/media/'+fruit.id+'/'+fruit.file_name"
+                alt=""> -->
+            </div>
+          <img v-else
             class="object-cover h-40 w-full px-2"
             src="/img/MUVH-fACHADA.jpeg"
             alt="Sunset in the mountains"
@@ -186,6 +223,19 @@
         </div>
         <p></p>
       </gmap-info-window>
+      <!--<gmap-custom-marker
+       :key="m.id"
+       v-for="(m) in filteredProducts"
+       :marker="getPosition(m)"
+       :clickable="true"
+       @click.native="toggleInfo(m,m.id)">
+        <img
+        src="img/house.svg"
+        alt="triangle with all three sides equal"
+        height="30"
+        width="30" />
+
+    </gmap-custom-marker> -->
       <GmapMarker
         :key="m.id"
         v-for="(m) in filteredProducts"
@@ -198,9 +248,13 @@
 </template>
 <script>
 import { gmapApi } from "vue2-google-maps";
+import GmapCustomMarker from 'vue2-gmap-custom-marker';
 
 export default {
   props: ["data", "datasat", "estados", "departamento", "programas"],
+  components: {
+      'gmap-custom-marker': GmapCustomMarker
+  },
   data() {
     return {
       arrayProyecto: this.data,
@@ -210,6 +264,10 @@ export default {
       arrayProgramas: this.programas,
       arrayFiltrado: [],
       filtros: {},
+      marker: {
+        lat: 50.60229509638775,
+        lng: 3.0247059387528408
+      },
       infoPosition: null,
       infoContent: null,
       infoProgram: null,
@@ -222,6 +280,7 @@ export default {
       infoMonto: null,
       infoOpened: false,
       infoCurrentKey: null,
+      gallery: [],
       selectedCategory: "",
       selectedProgram: "",
       selectedEstado: "",
@@ -253,6 +312,7 @@ export default {
       this.infoAvance = marker.avance;
       this.infoMonto = marker.monto_total;
       this.infoEstado = marker.estado;
+      this.gallery = marker.gallery
 
       if (this.infoCurrentKey == key) {
         this.infoOpened = !this.infoOpened;
@@ -326,3 +386,12 @@ export default {
   },
 };
 </script>
+<style>
+.imgmapa {
+  width: 500px;
+  height: 300px;
+  border-radius: 2px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  transition: width 1s;
+}
+</style>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Models\Segobra;
 use App\Sat;
 use App\Estado;
 use App\Departamento;
@@ -23,11 +24,13 @@ class HomeController extends Controller
         $datasat = [];
         $error = [];
 
-        $projects = Project::whereIn('SEOBPlan', $ids)
+        $projects = Segobra::whereIn('SEOBPlan', $ids)
             //->where('SEOBProgr','=','11')
             ->whereNotIn('SEOBEst', $noestados)
             ->whereIn('SEOBProgr', $addprogramas)
             ->get();
+            //$demo = Segobra::find(6);
+            //dd($demo->getMedia('gallery'));
         $estados = Estado::whereNotIn('value', $noestados   )->get();
         //dd($estados->toJson());
         $departamentos = Departamento::whereNotIn('DptoId', $nodep)
@@ -49,6 +52,7 @@ class HomeController extends Controller
 
         foreach ($projects as $key => $value) {
             try {
+
                 $latlong = $this->ToLL((int)$value->SEOBUtmY, (int)$value->SEOBUtmX, preg_replace("/[^0-9]/", '', $value->SEOBUtm1));
                 $data[] = [
                     'id' => trim($value->SEOBId),
@@ -66,6 +70,7 @@ class HomeController extends Controller
                     'avance' => number_format($value->SEOBFisAva, 0, '.', '.'),
                     'lat' => $latlong['lat'],
                     'lng' => $latlong['lon'],
+                    'gallery' => $value->getMedia('gallery'),
                     'monto_total' => number_format(trim($value->SEOBMonCo), 0, ',', '.'),
                 ];
             } catch (\Throwable $th) {

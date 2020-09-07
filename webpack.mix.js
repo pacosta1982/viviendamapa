@@ -15,3 +15,11 @@ mix.js('resources/js/app.js', 'public/js')
 .postCss('resources/css/main.css', 'public/css', [
     require('tailwindcss'),
   ])
+
+
+mix.js(['resources/js/admin/admin.js'], 'public/js')
+    .sass('resources/sass/admin/admin.scss', 'public/css');
+
+if (mix.inProduction()) {
+    mix.version();
+}
