@@ -186,6 +186,9 @@
               <strong>Programa:</strong>
               {{infoProgram}}
               <br />
+              <strong>Llamado / Licitación:</strong>
+              {{infoLictiacion}}
+              <br />
               <strong>Departamento:</strong>
               {{infoDepartamento}}
               <br />
@@ -201,7 +204,7 @@
               <strong>Total Viviendas:</strong>
               {{infoCasas}}
               <br />
-              <strong>Monto Total:</strong>
+              <strong>Monto Total Subsidio:</strong>
               {{ infoMonto }} Gs.
               <br />
               <strong>Avance:</strong>
@@ -271,6 +274,7 @@ export default {
       infoPosition: null,
       infoContent: null,
       infoProgram: null,
+      infoLictiacion: null,
       infoDepartamento: null,
       infoDistrito: null,
       infoSat: null,
@@ -305,6 +309,7 @@ export default {
       this.infoPosition = this.getPosition(marker);
       this.infoContent = marker.proyecto;
       this.infoProgram = marker.programa;
+      this.infoLictiacion = marker.llamado;
       this.infoDepartamento = marker.departamento;
       this.infoDistrito = marker.distrito;
       this.infoSat = marker.sat;

@@ -18,7 +18,7 @@ class HomeController extends Controller
 
         $ids = [6, 10, 12];
         $nodep = [18, 19, 20, 999];
-        $noestados = ['A', 'I'];
+        $noestados = ['A', 'I', 'Y', 'S', 'D'];
         $addprogramas = [4, 11, 5, 2, 3, 1];
         $data = [];
         $datasat = [];
@@ -38,7 +38,7 @@ class HomeController extends Controller
             //->whereNotIn('DptoId', $nodep)
             ->get();
         $programas = Programa::whereIn('value', $addprogramas)
-                     ->get();
+            ->get();
 
         $sats = Sat::where('NucEst', '=', 'H')
             ->get();
@@ -56,6 +56,7 @@ class HomeController extends Controller
                 $latlong = $this->ToLL((int)$value->SEOBUtmY, (int)$value->SEOBUtmX, preg_replace("/[^0-9]/", '', $value->SEOBUtm1));
                 $data[] = [
                     'id' => trim($value->SEOBId),
+                    'llamado' => trim($value->SEOBNCont),
                     'programa_id' => trim($value->SEOBProgr),
                     'programa' => trim($value->SEOBProgr ? $value->programa->name : ""),
                     'proyecto' => trim($value->SEOBProy),
