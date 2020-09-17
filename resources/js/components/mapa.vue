@@ -145,7 +145,7 @@
                 <!-- The slideshow -->
                 <div class="carousel-inner">
                     <div class="carousel-item" :class="{ 'active': index === 0 }" v-for="(fruit, index) in gallery" :key="fruit.id">
-                    <img class="imgmapa" :src="'/media/'+fruit.id+'/'+fruit.file_name" alt="">
+                    <img class="" :src="'/media/'+fruit.id+'/'+fruit.file_name" style="width:350px;">
                     </div>
                 </div>
 
@@ -393,8 +393,6 @@ export default {
 </script>
 <style>
 .imgmapa {
-  width: 500px;
-  height: 300px;
   border-radius: 2px;
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
   transition: width 1s;

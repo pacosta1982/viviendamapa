@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="container-xl">
             <span class="pull-right">
-                Desarrollado por <a href="https://www.muvh.gov.py/" target="_blank" style="color: #002555">MUVH - UNE BID</a>
+                Desarrollado por <a href="https://www.muvh.gov.py/" target="_blank" style="color: #002555">MUVH - UEP BID</a>
             </span>
             </div>
         </div>
