@@ -145,7 +145,7 @@
                 <!-- The slideshow -->
                 <div class="carousel-inner">
                     <div class="carousel-item" :class="{ 'active': index === 0 }" v-for="(fruit, index) in gallery" :key="fruit.id">
-                    <img class="" :src="'/media/'+fruit.id+'/'+fruit.file_name" style="width:350px;">
+                    <img class="" :src="'/media/'+fruit.id+'/'+fruit.file_name" style="width:100%;">
                     </div>
                 </div>
 
