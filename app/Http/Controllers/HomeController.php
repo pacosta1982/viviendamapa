@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
 
-        $ids = [6, 10, 12];
+        $ids = [14];
         $nodep = [18, 19, 20, 999];
         $noestados = ['A', 'I', 'Y', 'S', 'D'];
         $addprogramas = [4, 11, 5, 2, 3, 1];
@@ -29,9 +29,9 @@ class HomeController extends Controller
             ->whereNotIn('SEOBEst', $noestados)
             ->whereIn('SEOBProgr', $addprogramas)
             ->get();
-            //$demo = Segobra::find(6);
-            //dd($demo->getMedia('gallery'));
-        $estados = Estado::whereNotIn('value', $noestados   )->get();
+        //$demo = Segobra::find(6);
+        //dd($demo->getMedia('gallery'));
+        $estados = Estado::whereNotIn('value', $noestados)->get();
         //dd($estados->toJson());
         $departamentos = Departamento::whereNotIn('DptoId', $nodep)
             //->select('DptoNom')
