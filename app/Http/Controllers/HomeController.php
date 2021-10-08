@@ -68,7 +68,7 @@ class HomeController extends Controller
                     'sat' => trim($value->SEOBEmpr),
                     'codigo_sat' => trim($value->SEOBCodSAT),
                     'cantidad_viviendas' => $value->SEOBViv,
-                    'avance' => number_format($value->SEOBFisAva, 0, '.', '.'),
+                    'avance' => number_format($value->SEOBFisAva, 2, '.', '.'),
                     'lat' => $latlong['lat'],
                     'lng' => $latlong['lon'],
                     'gallery' => $value->getMedia('gallery'),
